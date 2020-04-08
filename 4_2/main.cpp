@@ -7,12 +7,11 @@ int START;
 vector<int> path;              // 存储路径的栈
 int deg[MAXN];                 // 节点的出度
 int max_all,cur_all;
-int cnt;                       // 总共几条回路
+int cnt,n;                       // 总共几条回路
 vector<int>::iterator w_iter;
 
-char PATH_IN[50]   = "/home/dynmi/Documents/HW_CODE20/4_2/test_data.txt",
-     PATH_OUT[50]  = "/home/dynmi/Documents/HW_CODE20/4_2/result.txt",
-     PATH_TEMP[50] = "/home/dynmi/Documents/HW_CODE20/4_2/tmp.out";
+char PATH_IN[100]   = "/home/dynmi/Documents/HW_CODE20/4_2/test_data.txt",
+     PATH_OUT[100]  = "/home/dynmi/Documents/HW_CODE20/4_2/result.txt";
 
 
 // 将path写入到文件中
@@ -58,15 +57,14 @@ void travel(FILE *out,int cur)
 
 }
 
-
 int main()
 {
     clock_t start_t,end_t;
     start_t = clock();
 
-    int a,b,tp,n=0;
+    int a,b,tp;
     FILE *in = fopen(PATH_IN,"r"),
-         *tmp= fopen(PATH_TEMP,"w");
+         *tmp= fopen("/home/dynmi/Documents/HW_CODE20/4_2/tmp.txt","w+");
 
     //读入数据
     while(fscanf(in,"%d,%d,%d",&a,&b,&tp)!=EOF)
@@ -77,26 +75,45 @@ int main()
     }
     fclose(in);
 
+    fprintf(tmp,"        \n");
+    
+    /*
+    max_all=3;
+    thread fir(func,tmp);
+    max_all++;
+    thread sec(func,tmp);
+    max_all++;
+    thread thr(func,tmp);
+    max_all++;
+    thread fort(func,tmp);
+    max_all++;
+    thread fif(func,tmp);
+    fir.detach();
+    sec.detach();
+    thr.detach();
+    fort.detach();
+    fif.detach();
+    */
+    
     for(max_all=3;max_all<=7;max_all++){
         for(START=1;START<=n;START++){
             cur_all=0; path.clear();
             travel(tmp,START);
         }
-    } 
-    fclose(tmp);
-
-    FILE *f  = fopen(PATH_OUT,"w"),
-        *tmp_= fopen(PATH_TEMP,"r");
-    fprintf(f,"%d\n",cnt);
-    char line[100];
-    while( fscanf(tmp_,"%s",line)!=EOF ){
-        fprintf(f,"%s\n",line);
     }
-    fclose(tmp); fclose(f);
+    rewind(tmp);
 
+    FILE *OUT = fopen(PATH_OUT,"w");
+    fprintf(OUT,"%d\n",cnt);
+    char line[100];
+    while( fscanf(tmp,"%s",line)!=EOF ){
+        fprintf(OUT,"%s\n",line);
+    }
+    fclose(tmp); fclose(OUT);
     end_t=clock();
     double total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
     printf("%f seconds\n",total_t);
 
     return 0;
 }
+
