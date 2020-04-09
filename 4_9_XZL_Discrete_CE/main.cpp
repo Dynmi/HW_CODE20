@@ -3,7 +3,7 @@
 #include <vector>
 
 #define MAXN 560010
-//#define DEBUG
+// #define DEBUG
 
 using namespace std;
 
@@ -52,7 +52,7 @@ void travel(FILE *out,UI cur)
         return;
     }
 
-    auto v = adj[cur].begin();
+    set<UI, less<UI> >::iterator v = adj[cur].begin();
     while(*v<START && v!=adj[cur].end()){    v++;    }
     while( v!=adj[cur].end() ){
         UI next = *v;
@@ -73,10 +73,10 @@ UI newIdx(UI x){
 
 int main()
 {
-    #ifdef DEBUG
-    clock_t start_t,end_t;
-    start_t = clock();
-    #endif
+//    #ifdef DEBUG
+//    clock_t start_t,end_t;
+//    start_t = clock();
+//    #endif
 
     UI a,b,tp,n=0;
     FILE *in = fopen(PATH_IN,"r"),
@@ -124,11 +124,11 @@ int main()
     }
     fclose(tmp); fclose(f);
 
-#ifdef DEBUG
-    end_t=clock();
-    double total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
-    printf("%f seconds\n",total_t);
-#endif
+//#ifdef DEBUG
+//    end_t=clock();
+//    double total_t = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+//    printf("%f seconds\n",total_t);
+//#endif
 
 
     return 0;
