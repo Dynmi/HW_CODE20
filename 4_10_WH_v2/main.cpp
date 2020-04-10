@@ -5,7 +5,7 @@
 using namespace std;
 #define MAXN 560005
 
-#define DEBUG
+//#define DEBUG
 
 typedef unsigned int UI;
 
@@ -17,8 +17,8 @@ UI ver[2 * MAXN],from[MAXN], to[MAXN];
 int vLen;
 UI iii;
 
-char PATH_IN[]   = "/home/dynmi/Documents/HW_CODE20/4_10_WH_v2/test_data.txt",
-     PATH_OUT[]  = "/home/dynmi/Documents/HW_CODE20/4_10_WH_v2/result.txt";
+char PATH_IN[50]   = "/data/test_data.txt",
+     PATH_OUT[50]  = "/projects/student/result.txt";
 
 FILE *f;
 
