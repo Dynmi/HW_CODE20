@@ -9,7 +9,7 @@ using namespace std;
 
 typedef unsigned int UI;
 
-set<UI, less<UI> > adj[MAXN];   // adj[i]是一个有序集合,包含了节点i的所有流出节点
+set<UI, less<UI> > adj[MAXN];   // adj[i]是一个有序集合,包含了节点i的所有流出节点  升序
 UI START;
 vector<UI> path;              // 存储路径的栈
 UI deg[MAXN];                 // 节点的出度
@@ -44,8 +44,7 @@ void travel(FILE *out,UI cur)
     path.push_back(cur); cur_all++;
     if(cur_all==max_all)
     {
-        if(adj[cur].find(START)!=adj[cur].end())
-        {
+        if(adj[cur].find(START)!=adj[cur].end()){
             write_circuit(out);
         }
         path.pop_back(); cur_all--;
@@ -53,7 +52,7 @@ void travel(FILE *out,UI cur)
     }
 
     set<UI, less<UI> >::iterator v = adj[cur].begin();
-    while(*v<START && v!=adj[cur].end()){    v++;    }
+    while(*v<START && v!=adj[cur].end()){    v++;    } // 每条循环转账中，ID（ID转为无符号整数后）最小的第一个输出；
     while( v!=adj[cur].end() ){
         UI next = *v;
         if(deg[next]!=0 && find(path.begin(),path.end(),next)==path.end())

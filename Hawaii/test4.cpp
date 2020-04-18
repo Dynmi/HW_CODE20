@@ -1,9 +1,13 @@
-#include<bits/stdc++.h>
+#include <utility>
+#include <vector>
+#include <set>
+#include <queue>
+#include <thread>
 
 using namespace std;
 #define MAXN 560005
 
-#define DEBUG
+// #define DEBUG
 #define MAXS 41943040
 typedef unsigned int UI;
 UI max_all3=3,max_all4=4,max_all5 = 5,max_all6=6,max_all7=7;
@@ -11,7 +15,7 @@ char PATH_IN[50]   = "test_data_10000_50000.txt",
      PATH_OUT[50]  = "result4.txt";
 struct Ans{
 	vector<UI>ans;
-	Ans(vector<UI> _ans):ans(_ans){}
+	Ans(vector<UI> _ans):ans(std::move(_ans)){}
 	Ans(){}
 	bool operator< (const Ans& other)const {
 		int len1 = this->ans.size();
