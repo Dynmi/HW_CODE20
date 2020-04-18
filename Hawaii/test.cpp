@@ -25,8 +25,9 @@ struct Ans{
 	}
 };
 set<Ans>Set;
-int S = 1;//_10000_50000
+int S = 1;//_10000_50000//_data_10000_50000
 int mp_tot = 0;
+int cont = 0;
 char PATH_IN[100]   = "test_data_10000_50000.txt",
      PATH_OUT[100]  = "my_result0.txt";
 struct Edges{
@@ -61,6 +62,7 @@ inline void printans(){
 	write(len);
 	putchar('\n');
 	for(auto it = Set.begin(),ed = Set.end();it!=ed;++it){
+		if(it->ans.size()>7)break;
 		for(auto ait = it->ans.begin(),aed = it->ans.end();ait!=aed;++ait){
 			if(ait!=it->ans.begin())putchar(',');
 			write(*ait);
@@ -86,39 +88,40 @@ inline void output(){
 	}else return;
 	return;
 }
-void unblock(int u){
+void unblock(int u,int len){
 	//cout<<u<<endl;
 	Blocked[u-1] = false;
+	//if(len > 7)return;
 	while(!B[u-1].empty()){
 		int v = B[u-1].front();
 		B[u-1].pop_front();
 		if(Blocked[v-1]){
-			unblock(v);
+			unblock(v,len+1);
 		}
 	}
 } 
+//5094,6750,7864,9537//5094,6750,7864,9537
 int circuit(int fa,int u,int l){
 	
 	int flag = 0;
-	Stack.push_back(u);//24285
-	//if(remap[S] == 587 && remap[u] == 12340)cout<<"fa="<<remap[fa]<<endl;
-	//if(remap[S]==587 && remap[u] == 29110 && Blocked[mp[29110]-1] == false)cout<<"l="<<l<<"u = "<<remap[u];
+	Stack.push_back(u);
+	//if(remap[u] == 6750 && remap[fa] == 5094)cout<<"l = "<<l<<endl;
+
 	Blocked[u-1] = true;
 	
 	for(int i=head[u];i;i=e[i].nxt){
 		int v = e[i].t;
-		//if(remap[u] == 25083 && S == 5562){cout<<l<<" v="<<remap[v]<<endl;}
-	//	if(remap[v] == 29110 && S == 5562)cout<<"S = "<<remap[S]<<"l="<<l<<"blv = "<<Blocked[v-1]<<" "<<endl;
+		if(v<S)continue;
+		//if(remap[u] == 5094 && remap[v] == 6750 && l<3)cout<<"l = "<<l<<" blv = "<<Blocked[v]<<endl;
 		if(v == S){
-			//if(l>7 || l<=2){flag = 1;continue;}
+			if(l>7 || l<=6){flag = 1;continue;}
 			output();
 			flag = 2;
 		}else if(v>S && !Blocked[v-1]){
-		//	if(remap[v] == 29110 && S == 5562)cout<<"S = "<<remap[S]<<"l="<<l<<"blv = "<<Blocked[v-1]<<" "<<endl;
-			if(l > 7){
+			if(l >= 7){
 				flag = 1;
-				//Blocked[u] = false;
-				continue;
+			
+				//break; 
 			}
 			else {
 				flag = circuit(u,v,l+1);
@@ -127,8 +130,9 @@ int circuit(int fa,int u,int l){
 	}
 	
 	if(flag == 2 || flag == 1){
-		unblock(u);
+		unblock(u,1);
 	}else{
+	
 		for(int i=head[u];i;i=e[i].nxt){
 			int v = e[i].t;
 			auto it = std::find(B[v-1].begin(),B[v-1].end(),u);
@@ -174,6 +178,12 @@ int main(){
 			mp[v] = ++mp_tot;
 			remap[mp_tot] = v;
 		}
+		/*mp[u] = u+1;
+		remap[u+1] = u;
+		mp[v] = v+1;
+		remap[v+1] = v;
+		mp_tot = 10000;*/
+		//debug
 		add(mp[u],mp[v]);
 	}
 	//cout<<mp[587]<<endl;
